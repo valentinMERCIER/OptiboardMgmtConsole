@@ -1,0 +1,271 @@
+ <!DOCTYPE html>
+<html>
+<head>
+	<title>Node device Management</title>
+	<meta charset="utf-8">
+		
+	<!-- COMMON JS FILES -->
+	<script type="text/javascript" src="js/jquery.min.js"></script>
+	<script type="text/javascript" src="js/jsoneditor.js"></script>
+	<script type="text/javascript" src="js/angular.js"></script>
+	<script type="text/javascript" src="js/ng-jsoneditor.js"></script>
+	<script type="text/javascript" src="js/controller.js"></script>
+	<script src="js/ng-file-upload-shim.min.js"></script> <!-- for no html5 browsers support -->
+	<script src="js/ng-file-upload.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="css/jsoneditor.css">
+	<link rel="stylesheet" type="text/css" href="css/app.css">
+	
+</head>
+<body ng-app="app">
+
+	
+	<div class="container" ng-controller="ManagementController">
+						
+		<header><h3>Pulse Server</h3><h5>Number of Screens {{config.screens.length}}</h5></header>
+
+<!-- CONFIG PANEL -->
+
+		<div class="kibana" ng-show="kibanaShown">
+			<div class="kibanaframe">
+				<iframe src="https://cofely:ictcs-s4usr@kibana.ictsupportservices.be/goto/e458dd3727c01deace83e7464a29486f" height="100%" width="100%"></iframe>
+			</div>
+			<div class="kibanabuttons">
+				<table width="100%">
+					<tr>
+						<td align="center">
+							<a class="btn btn-success" ng-click="closeKibana();">Close</a>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+
+<!-- TABLE CONFIG PANEL -->
+
+		<div class="tableconfig" ng-show="tableConfigShown">
+				<h3>Configure Table</h3>
+				
+				<div class="subframestableconfig">
+					<table  class="table table-condensed">
+		    		      <thead>
+		    		        <tr>
+		    		          <th >Image</th>
+		    		          <th >Schedule</th>
+		    				  <th >Event</th>
+		    				  <th >Room</th>
+		    				  <th >Floor</th>	
+							  <th></th>			  				  
+		    		        </tr>
+		    		      </thead>
+		    		      <tbody>
+	  						<tr ng-repeat="entry in curTableConfig.entries " >
+	  							<td>
+	  								<input style="color:black" type="text" ng-model="entry.image"></input>								
+	  							</td>
+	  							<td>
+	  								<input style="color:black" type="text" ng-model="entry.schedule"></input>								
+	  							</td>	  							
+								<td>
+	  								<input style="color:black" type="text" ng-model="entry.event"></input>								
+	  							</td>	  							
+								<td>
+	  								<input style="color:black" size="12" type="text" ng-model="entry.room"></input>								
+	  							</td>	  							
+								<td>
+	  								<input style="color:black" size="12" type="text" ng-model="entry.floor"></input>								
+	  							</td>
+								<td>
+									<a class="btn btn-danger" ng-click="removeSubTableFrame(entry);">Remove&nbsp;<span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span></a>
+									<a class="btn btn-success" ng-click="moveSubTableFrameDown(entry);"ng-show="!$last">Down&nbsp;<span class="glyphicon glyphicon-download" aria-hidden="true"></span></a>
+									<a class="btn btn-success" ng-click="moveSubTableFrameUp(entry);"  ng-show="!$first">Up&nbsp;<span class="glyphicon glyphicon-upload" aria-hidden="true"></span></a>
+								</td>
+		    		      <tbody>
+					  </table>
+			   </div>
+				<a class="btn btn-warning" ng-click="addSubTableFrame();">Add a new entry&nbsp;<span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span></a>
+				<hr>
+				<table width="100%">
+					<tr>
+						<td align="center">
+							<a class="btn btn-success" ng-click="closeTableConfig();">Close</a>
+							<a class="btn btn-primary" ng-click="saveTableConfig();">Save&nbsp;<span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span></a>
+						</td>
+					</tr>
+				</table>
+		</div>
+
+<!-- CONFIG PANEL -->
+		<div class="config" ng-show="configShown">
+			Path To Folders:<input style="color:black" type="text" ng-model="config.path"></input>			
+			&nbsp;Choose a Screen:&nbsp;<select id="sel" class="input-block-level" ng-model="selectedScreen" ng-options="conf.name for conf in config.screens">    			        
+			    </select>&nbsp;
+				&nbsp;
+							<a class="btn btn-warning" ng-click="addScreen();">Add a Screen&nbsp;<span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span></a>
+							<a class="btn btn-danger" ng-show="config.screens.length>1" ng-click="deleteScreen();">Delete Screen&nbsp;<span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span></a>
+							
+				<br/>
+				<br/>			
+				<table>
+					<tr>
+						<td>&nbsp;Name:&nbsp;
+						</td>
+						<td>
+							 <input style="color:black" type="text" ng-model="selectedScreen.name"></input>						
+						</td>						
+						<td>&nbsp;Template:&nbsp;
+						</td>
+						<td colspan="3">
+							 <input size="60" style="color:black;" type="text" ng-model="selectedScreen.template"></input>						
+						</td>
+						
+					</tr>
+					<tr>
+						<td>
+						</td>
+						<td>
+						</td>
+						<td>&nbsp;RSS:&nbsp;
+						</td>
+						<td colspan="1" style="padding-top:4px;">
+							 <input size="60" style="color:black" type="text" ng-model="selectedScreen.rss"></input>						
+						</td>
+						<td>&nbsp;RSS Field:&nbsp;
+						</td>						
+						<td>
+							<input size="10" style="color:black;" type="text" ng-model="selectedScreen.rssField"></input>						
+						</td>
+					</tr>
+				</table>
+				<h4>Sub Frames</h4>
+				
+				<div class="subframestable">
+					<table  class="table table-condensed" >
+		    		      <thead>
+		    		        <tr>
+		    		          <th >Template</th>
+		    		          <th >Description</th>
+		    				  <th >Type</th>
+		    				  <th >Parameters</th>
+				  				  
+		    		        </tr>
+		    		      </thead>
+						<tr ng-repeat="subframe in selectedScreen.subFrames " >
+							<td>
+								<input style="color:black" type="text" ng-model="subframe.frameTemplate"></input>
+								
+							</td>
+							<td>
+								<input style="color:black" type="text" ng-model="subframe.name"></input>
+								
+							</td>
+							<td>
+								<select id="sel" class="input-block-level" 
+									ng-model="subframe.frameType" ng-options="subframetype for subframetype in screenTypes">    			        
+								</select>
+							</td>
+							<td>
+								<textarea style="color:black" ng-show="subframe.frameType == 'Free Html'" type="freeHtml" rows=4 ng-model="subframe.freeHtml"></textarea>								
+								<a class="btn btn-success" ng-click="showTableConfig(subframe);" ng-show="subframe.frameType == 'Table'">Configure&nbsp;<span class="glyphicon glyphicon-cog" aria-hidden="true"></span></a>
+							</td>
+							<td>
+								<a class="btn btn-danger" ng-click="removeSubFrame(subframe);">Remove&nbsp;<span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span></a>
+								<a class="btn btn-success" ng-click="moveSubFrameDown(subframe);"ng-show="!$last">Down&nbsp;<span class="glyphicon glyphicon-download" aria-hidden="true"></span></a>
+								<a class="btn btn-success" ng-click="moveSubFrameUp(subframe);"  ng-show="!$first">Up&nbsp;<span class="glyphicon glyphicon-upload" aria-hidden="true"></span></a>
+							</td>
+						</tr>
+					</table>
+				</div>
+				<a class="btn btn-warning" ng-click="addSubFrame();">Add a sub frame&nbsp;<span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span></a>
+				<hr>
+				<br/>	
+				<table width="100%">
+					<tr>
+						<td align="center">
+							<a class="btn btn-success" ng-click="closeConfig();">Close</a>
+							<a class="btn btn-primary" ng-click="saveConfig();">Save&nbsp;<span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span></a>
+						</td>
+					</tr>
+				</table>
+		</div>
+		
+		<div class="filter">
+			Filter: <input style="color:black" type="text" ng-model="filterField"></input>
+			<a class="btn btn-primary" ng-click="showConfig();">Configuration
+				<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>					
+			</a>
+			
+			<a class="btn btn-success" ng-click="showKibana();">Kibana
+				<span class="glyphicon glyphicon-stats" aria-hidden="true"></span>					
+			</a>
+			
+			<a class="btn btn-danger" ng-show="selectedScreens() &amp;&amp; myFile" ng-click="uploadZip();">Send ZIP&nbsp;<span 		class="glyphicon glyphicon-send" aria-hidden="true"></span>
+			</a>
+			<label class="btn btn-default btn-file">
+				Browse <input type="file" style="display: none;" file-model="myFile">
+			</label>
+			<span ng-if="myFile">
+				{{myFile}}
+			</span>
+<!--
+			<input type="file" file-model="myFile"/>			
+-->
+		</div>
+				
+		<div class="container-fluid client-selector">
+			<div class="row client-row" ng-class="selectedClient.id==client.id? 'selected' : ''" ng-repeat="client in clients" ng-click="clickClient(client)">
+				{{client.description}}
+			</div>
+		</div>
+		
+		
+		<div class="container-fluid body-content">
+			
+		
+			
+			<table class="table table-condensed">
+				<thead>
+					<tr>
+					  <th >Name</th>
+					  <th >Template</th>
+					  <th ><input type="checkbox"
+							ng-model="config.allScreenSelector" ng-click="clickAllScreenSelector()"></th>
+									  
+					</tr>
+				</thead>
+				<tbody ng-repeat="screen in config.screens | filter:filterField">
+					<tr ng-class="screen.selected?'screen-selected':''">
+						<td>
+							{{screen.name}}
+						</td>
+						<td>
+							{{screen.template}}
+						</td>
+						<td>
+							<input type="checkbox"
+							ng-model="screen.selected">	
+						</td>
+
+					</tr>
+				</tbody>
+  		    </table>
+			
+			
+		</div>
+		<footer>
+			<div class="container-fluid">
+				<div class="row">
+				  <div class="col-sm-4"></div>
+				  <div class="col-sm-4"></div>
+				  <div class="col-sm-4" title="Number of polls" style="text-align:right">v{{version}} [{{polls}}]</div>
+				</div>
+			</div>
+		</footer>
+		<!--div class="row">
+			<div ng-jsoneditor ng-model="data" options="obj.options" style="width: 100%; height: 600px;"></div>
+		</div-->
+		
+	</div>
+	
+</body>
+</html> 

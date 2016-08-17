@@ -1,0 +1,13 @@
+{
+  "name": "pulse_web_app",
+  "version": "0.0.1",
+  "description": "Pulse Web Interface",
+  "author": "ICTCS etam",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "express": "^4.13.3"
+  }
+}

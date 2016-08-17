@@ -1,0 +1,165 @@
+html {
+  height: 100%;
+}
+html body {
+  height: 100%;
+  overflow: hidden;
+}
+html body .container-fluid.body-content {
+  position: absolute;
+  top: 80px;
+  bottom: 30px;
+  right: 0px;
+  left: 180px;
+  overflow-y: auto;
+}
+
+.client-selector {
+    position: absolute;
+    top: 80px;
+    bottom: 20px;
+    left: 0px;
+    width: 180px;
+    overflow-y: auto;
+    border-right: solid 1px #4d515b;
+}
+
+.client-row {
+	margin: 5px;
+    background-color: #4d515b;
+    color: white;
+    text-align: center;
+    border-radius: 3px;
+    height: 30px;
+    padding-top: 5px;
+}
+
+.client-row:hover {
+	opacity:0.8;
+}
+
+
+.client-row.selected {
+	background-color:#31c471;
+}
+
+.screen-selected{
+	background-color:#31c471;
+}
+
+header {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    background-color: #4d515b;
+	color:white;
+	text-align:right;
+	padding-right:10px;
+    height: 80px;
+}
+footer {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #4d515b;
+	color:white;
+	text-align:center;
+    height: 20px;
+}
+
+.filter{
+    position: absolute;
+    left: 10px;
+    top: 10px;
+	color:white;
+	z-index:100;
+}
+
+.config
+{
+    position: absolute;
+    right: 100px;
+	left: 100px;
+    top: 10px;
+	
+	color:black;
+	background-color:white;
+	border:solid 1px black;
+	z-index:200;
+	padding:20px;
+}
+
+
+/*********** TABLE CONFIG ************/
+
+.tableconfig
+{
+    position: absolute;
+    right: 130px;
+	left: 130px;
+    top: 40px;
+	
+	color:black;
+	background-color:white;
+	border:solid 1px black;
+	z-index:300;
+	padding:20px;
+}
+
+.subframestableconfig
+{
+	height:250px;
+	overflow:auto;
+}
+
+/**************************************/
+
+.kibana
+{
+    position: absolute;
+    right: 100px;
+	left: 100px;
+    top: 10px;
+    bottom: 10px;
+	
+	color:black;
+	background-color:white;
+	border:solid 1px black;
+	z-index:200;
+	padding:20px;
+}
+
+.kibanaframe
+{
+    position: absolute;
+    right: 10px;
+	left: 10px;
+    top: 10px;
+    bottom: 50px;
+	
+	color:black;
+	background-color:white;
+	border:solid 1px black;
+	z-index:200;
+}
+
+.kibanabuttons
+{
+    position: absolute;
+    right: 100px;
+	left: 100px;
+    bottom: 10px;
+	height:30px;
+	
+	color:black;
+	background-color:white;
+	z-index:200;
+}
+
+.subframestable
+{
+	height:250px;
+	overflow:auto;
+}
