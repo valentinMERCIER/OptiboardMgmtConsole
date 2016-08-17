@@ -1,6 +1,9 @@
 //|- 
-//|- NodeDevices
+//|- Optiboard Console
 //|-
+//|- v1.0 AMA/VME	17Aug2016 	First Version
+
+
 // We get a logger
 
 var log4js = require('log4js');
