@@ -29,6 +29,7 @@ var app = express();
 app.use(express.static('./management'));
 
 app.use(bodyParser.json());
+
 app.use(bodyParser.urlencoded({ extended: true }));
 
 
